@@ -115,40 +115,45 @@ andypf-json-viewer::part(wrapper) {
 }
 
 #fully-slider-target {
-    height: 30px;
+    position: relative;
+    height: 20px;
+    background-color: transparent;
+    padding: 20px 0;
 }
 
-#fully-slider {
+.slider {
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     left: 0;
-    width: 100%;
-    height: 20px;
     background: #ddd;
-    border-radius: 4px;
-    outline: none;
+    width: 100%;
+    height: 30px;
+    border-radius: 20px;
+    outline: #45a049;
     appearance: none;
     cursor: pointer;
-    padding: 0 20px;
+    padding: 0 0px;
     box-sizing: border-box;
     z-index: 10;
 }
 
-#fully-slider::-webkit-slider-thumb {
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
     appearance: none;
-    height: 20px;
-    width: 20px;
-    background: #4CAF50;
+    height: 50px;
+    width: 50px;
+    background: #45a049;
     border-radius: 50%;
-    border: 2px solid white;
-    margin-top: -6px;
+    border: 0px solid white;
+    margin-top: 0px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
     transition: background 0.3s ease;
 }
 
-#fully-slider::-webkit-slider-thumb:hover {
+.slider::-webkit-slider-thumb:hover {
     background: #45a049;
 }
+
 /* component in fully section end */
 
 /* component in partially section :start */
@@ -157,6 +162,14 @@ andypf-json-viewer::part(wrapper) {
     height: 700px;
     background-color: #263238;
 }
+
+#partially-slider-target {
+    position: relative;
+    height: 20px;
+    background-color: transparent;
+    padding: 20px 0;
+}
+
 /* component in partially section end */
 
 section ul {

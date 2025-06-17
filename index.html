@@ -318,8 +318,9 @@
             <h2>Fully-Visualization</h2>
             <p class="information-text">This approach eliminates the inefficiencies of manual rework and dense command logs, empowering designers to explore alternative design decisions, reduce overhead, and streamline collaboration—all without requiring proprietary BIM software or licenses.</p>
             <div id = "fully-target"></div>
+
             <div id="fully-slider-target">
-                <input type="range" id="fully-slider">
+                <input type="range" id="fully-slider" class="slider">
             </div>
         </section>
 
@@ -327,8 +328,9 @@
             <h2>Partially-Visualization</h2>
             <p class="information-text">This approach eliminates the inefficiencies of manual rework and dense command logs, empowering designers to explore alternative design decisions, reduce overhead, and streamline collaboration—all without requiring proprietary BIM software or licenses.</p>
             <div id="partially-target"></div>
-            <div id="partially-slider">
-                <input type="range">
+
+            <div id="partially-slider-target">
+                <input type="range" id="partially-slider" class="slider">
             </div>
         </section>
 
@@ -356,6 +358,25 @@
         });
     </script>
     
+    <!-- slider 움직일 때 왼쪽 차오르게게 -->
+    <script>
+        const sliderFully = document.getElementById("fully-slider");
+        const sliderPartially = document.getElementById("partially-slider");
+
+        function updateSliderBackground(slider) {
+            const min = slider.min || 0;
+            const max = slider.max || 100;
+            const val = (slider.value - min) / (max - min) * 100;
+
+            slider.style.background = `linear-gradient(to right, #263238 0%, #45a049 ${val}%, #ddd ${val}%, #ddd 100%)`;
+        }
+
+        sliderFully.addEventListener("input", () => updateSliderBackground(sliderFully));
+        sliderPartially.addEventListener("input", () => updateSliderBackground(sliderPartially));
+        // 초기화
+        updateSliderBackground(sliderFully);
+        updateSliderBackground(sliderPartially);
+    </script>
 
 </body>
 </html>
