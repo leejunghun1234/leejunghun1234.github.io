@@ -34,7 +34,6 @@ export function initPartialClipping(
 
     const box = MakeBox(scene);
     const { planes, inversePlanes, cons, helpers } = GetPlanes(box, scene);
-
     let draggingCone = null;
     let dragStartPoint = new THREE.Vector3();
     const raycaster = new THREE.Raycaster();
@@ -101,6 +100,7 @@ export function initPartialClipping(
 
     const insideButton = document.getElementById("inside-button");
     const outsideButton = document.getElementById("outside-button");
+    const planeButton = document.getElementById("plane-button");
     const slider = document.getElementById("partially-slider");
     
     let insideVisible = false;
@@ -135,6 +135,29 @@ export function initPartialClipping(
         }
         
     });
+
+    planeButton.addEventListener("click", () => {
+        planeButton.classList.toggle("Visible");
+        if (planeButton.classList.contains("Visible")) {
+            planeButton.style.backgroundColor = "#263238";
+            console.log(helpers);
+            for (const helper of helpers) {
+                console.log(helper);
+                helper.visible = false;
+            }
+            for (const con of cons) {
+                con.visible = false;
+            }
+        } else {
+            planeButton.style.backgroundColor = "#4CAF50";
+            for (const helper of helpers) {
+                helper.visible = true;
+            }
+            for (const con of cons) {
+                con.visible = true;
+            }
+        }
+    })
 
     function updateMeshes(currentTime) {
         for (const mm of allGroup) {
