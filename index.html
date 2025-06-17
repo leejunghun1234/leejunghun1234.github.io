@@ -4,9 +4,353 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://pfau-software.de/json-viewer/dist/iife/index.js"></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "jsonViewer": "https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.8/lib/json-viewer.min.js",
+                "three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three/examples/jsm/"
+            }
+        }
+    </script>
 </head>
 <body>
-    <h2>안녕하신가</h2>
-    <h1>안녕~</h1>
+    <div class="container">
+        <header>
+            <h1 id="header_h1" class="header_h1">Advanced BIM Log Based</h1>
+            <h1 id="header_h1_2" class="header_h1">Visualization and Design Patching</h1>
+            <div>
+                <span>
+                    <a href="#">Junghun Lee</a><sup>1</sup>, 
+                </span>
+                <span>
+                    <a href="#">Seokho Hyun</a><sup>1</sup>, 
+                </span>
+                <span>
+                    <a href="#">Suhyung Jang</a><sup>1</sup>, 
+                </span>
+                <span>
+                    <a href="#">Ghang Lee</a><sup>1</sup>, 
+                </span>
+            </div>
+            <div>
+                <sup class = "header-school">1</sup>
+                <span class="header-school">Department of Architecture and Architectural Engineering, Yonsei University, Seoul, Korea</span>
+            </div>
+        </header>
+
+        <section id="teaser-section">
+            <div>
+                <video id="teaser" autoplay muted loop playsinline>
+                    <source src="./src/video/디자인 패칭.mp4">
+                </video>
+                <h3>Teaser of Design patching process with our method</h3>
+            </div>
+        </section>
+
+        <section id="about-section">
+            <h2>About</h2>
+            <p class="information-text">The BIM Design Revision Management Platform is a lightweight, web-based system designed to support real-time tracking, selective rollback, and automated patching of design changes in collaborative BIM environments. </p>
+                
+            <p class="information-text">Unlike traditional backup-based workflows or fragmented model comparisons, our platform utilizes an Advanced BIM Log—a structured, time-sequenced format that captures geometric and property-level changes at the object level. Through an interactive timeline interface, users can monitor design evolution, preview the effects of reverting specific parts of the model, and apply those revisions automatically without affecting unrelated components.</p> 
+            <p class="information-text">This approach eliminates the inefficiencies of manual rework and dense command logs, empowering designers to explore alternative design decisions, reduce overhead, and streamline collaboration—all without requiring proprietary BIM software or licenses.</p>
+            <img src="./src/image/image.png" alt="Example image">
+        </section>
+
+        <section id="advnaced-BIM-log-section">
+            <h2>Advanced BIM Log</h2>
+            <p id="log-info" class="information-text">This approach eliminates the inefficiencies of manual rework and dense command logs, empowering designers to explore alternative design decisions, reduce overhead, and streamline collaboration—all without requiring proprietary BIM software or licenses.</p>
+            
+            <h2></h2>
+
+            <p>Shape Log Schema</p>
+            <div id="shapelog-container" class="log-container">
+                <andypf-json-viewer
+                theme='materia'
+                
+                indent="6"
+                expanded="false"
+                theme="default-light"
+                show-data-types="false"
+                show-toolbar="false"
+                expand-icon-type="square"
+                show-copy="false"
+                show-size="false"
+                >
+                {
+                "title": "shapeLog",
+                "type": "object",
+                "Description": "a",
+                "properties": {
+                    "Filename": {
+                            "type": "string",
+                            "description": "Name of the BIM Model file"
+                    },
+                    "CreationGUID": {
+                        "type": "string",
+                        "description": "GUID of the BIM Model file"
+                    },
+                    "StartTime": {
+                        "type": "string",
+                        "description": "Start Time when file opened"
+                    },
+                    "EndTime": {
+                        "type": "string",
+                        "description": "End Time when file closed"
+                    },
+                    "ShapeLog": {
+                        "type": "array",
+                        "description": "",
+                        "items": {
+                            "type": "object",
+                            "description": "" ,
+                            "properties" : {
+                                "ElementId": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "CommandType": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "Info": {
+                                    "type": "object",
+                                    "description": "",
+                                    "properties": {
+                                        "Common": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Geometry": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Property": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Parameter": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Layers": {
+                                            "oneOf": [
+                                                {
+                                                    "type": "object",
+                                                    "description": ""
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "description": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "Meshes": {
+                                    "type": "array",
+                                    "description": "3D mesh data associated with the element",
+                                    "items": {
+                                        "type": "object",
+                                        "Material": {
+                                            "type": "string",
+                                            "description": "Material of the mesh"
+                                        },
+                                        "Color": {
+                                            "type": "array",
+                                            "description": "RGB color values"
+                                        },
+                                        "Transparency": {
+                                            "type": "integer",
+                                            "description": "Transparency level of the mesh"
+                                        },
+                                        "Vertices": {
+                                            "type": "array",
+                                            "description": "List of vertex coordinates",
+                                            "items": { "type": "number" }
+                                        },
+                                        "Indices": {
+                                            "type": "array",
+                                            "description": "Index buffer for defining mesh topology",
+                                            "items": { "type": "integer" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+                
+                </andypf-json-viewer>
+            </div>
+
+            <p></p>
+
+            <p>Time Log Schema</p>
+            <div id="time-container" class="log-container">
+                <andypf-json-viewer
+                theme='materia'
+                indent="6"
+                expanded="false"
+                theme="default-light"
+                show-data-types="false"
+                show-toolbar="false"
+                expand-icon-type="square"
+                show-copy="false"
+                show-size="false"
+                >
+                {
+                "title": "shapeLog",
+                "type": "object",
+                "Description": "a",
+                "properties": {
+                    "Filename": {
+                            "type": "string",
+                            "description": "Name of the BIM Model file"
+                    },
+                    "CreationGUID": {
+                        "type": "string",
+                        "description": "GUID of the BIM Model file"
+                    },
+                    "StartTime": {
+                        "type": "string",
+                        "description": "Start Time when file opened"
+                    },
+                    "EndTime": {
+                        "type": "string",
+                        "description": "End Time when file closed"
+                    },
+                    "ShapeLog": {
+                        "type": "array",
+                        "description": "",
+                        "items": {
+                            "type": "object",
+                            "description": "" ,
+                            "properties" : {
+                                "ElementId": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "CommandType": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "Info": {
+                                    "type": "object",
+                                    "description": "",
+                                    "properties": {
+                                        "Common": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Geometry": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Property": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Parameter": {
+                                            "type": "object",
+                                            "description": ""
+                                        },
+                                        "Layers": {
+                                            "oneOf": [
+                                                {
+                                                    "type": "object",
+                                                    "description": ""
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "description": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "Meshes": {
+                                    "type": "array",
+                                    "description": "3D mesh data associated with the element",
+                                    "items": {
+                                        "type": "object",
+                                        "Material": {
+                                            "type": "string",
+                                            "description": "Material of the mesh"
+                                        },
+                                        "Color": {
+                                            "type": "array",
+                                            "description": "RGB color values"
+                                        },
+                                        "Transparency": {
+                                            "type": "integer",
+                                            "description": "Transparency level of the mesh"
+                                        },
+                                        "Vertices": {
+                                            "type": "array",
+                                            "description": "List of vertex coordinates",
+                                            "items": { "type": "number" }
+                                        },
+                                        "Indices": {
+                                            "type": "array",
+                                            "description": "Index buffer for defining mesh topology",
+                                            "items": { "type": "integer" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+                
+                </andypf-json-viewer>
+            </div>
+            
+        </section>
+
+        <section id="Full-Visualization">
+            <h2>Fully-Visualization</h2>
+            <p class="information-text">This approach eliminates the inefficiencies of manual rework and dense command logs, empowering designers to explore alternative design decisions, reduce overhead, and streamline collaboration—all without requiring proprietary BIM software or licenses.</p>
+            <div id = "fully-target"></div>
+        </section>
+
+        <section id="Partially-Visualization">
+            <h2>Partially-Visualization</h2>
+            <p class="information-text">This approach eliminates the inefficiencies of manual rework and dense command logs, empowering designers to explore alternative design decisions, reduce overhead, and streamline collaboration—all without requiring proprietary BIM software or licenses.</p>
+            <div id="partially-target"></div>
+        
+        </section>
+
+        <section id="Design-Patching">
+            <h2>Design Patching</h2>
+            <p class="information-text">This approach eliminates the inefficiencies of manual rework and dense command logs, empowering designers to explore alternative design decisions, reduce overhead, and streamline collaboration—all without requiring proprietary BIM software or licenses.</p>
+        </section>
+            
+
+        <section>
+            <h2>Demo</h2>
+            <a href="demo.html" class="button">View Live Demo</a>
+        </section>
+
+        <footer>
+            <p>© 2025 BIG Yonsei | GitHub Pages</p>
+        </footer>
+    </div>
+    
+
+    <script type="module">
+        import { main } from './src/script/main.js';
+        document.addEventListener("DOMContentLoaded", () => {
+            main("fully-target");
+        });
+    </script>
+    
+
 </body>
 </html>
