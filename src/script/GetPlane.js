@@ -36,7 +36,6 @@ export function GetPlanes(box, scene) {
     for (let i = 0; i < planes.length; i++) {
         const planeHelper = new THREE.PlaneHelper(planes[i], params.planeSize, 0xff0000);
         helpers.push(planeHelper);
-        console.log(helpers);
         scene.add(planeHelper);
 
         const center = new THREE.Vector3();

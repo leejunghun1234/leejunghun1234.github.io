@@ -47,7 +47,7 @@ export async function main(windowTarget, slider, isPartial) {
     
     // Camera 설정
     const camera = new THREE.PerspectiveCamera(75, window.offsetWidth / window.offsetHeight, 0.01, 5000);
-    camera.position.set(4, 10, 4);
+    camera.position.set(0, 3, 10);
     camera.lookAt(0, 1, 0);
 
     // Resizer 설정하기기

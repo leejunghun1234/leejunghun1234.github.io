@@ -140,9 +140,7 @@ export function initPartialClipping(
         planeButton.classList.toggle("Visible");
         if (planeButton.classList.contains("Visible")) {
             planeButton.style.backgroundColor = "#263238";
-            console.log(helpers);
             for (const helper of helpers) {
-                console.log(helper);
                 helper.visible = false;
             }
             for (const con of cons) {
@@ -163,8 +161,6 @@ export function initPartialClipping(
         for (const mm of allGroup) {
             mm.visible = false;
         }
-        console.log(timeJson);
-        console.log(currentTime);
         for (const timelog of timeJson[currentTime]["Elements"]) {
             const groups = meshDict[timelog];
             if (groups === undefined) continue;
