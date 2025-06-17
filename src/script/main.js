@@ -3,6 +3,7 @@ import { loadMeshes } from "./meshLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"; 
 import { sliderControls } from "./slider.js";
 import { GetPlanes } from "./GetPlane.js";
+import { MakeClipping } from "./MakeClipping.js";
 
 export async function main(windowTarget, slider, isPartial) {
     // Scene 설정정
@@ -12,19 +13,22 @@ export async function main(windowTarget, slider, isPartial) {
 
     // 조명 설정
     const lightConfigs = [
-        [0, 10, 0],
-        [0, 10, 5],
-        [5, 10, 0],
-        [-5, 10, 5],
-        [5, 10, -5],
-        [0, 10, -5],
-        [-5, 10, 0],
+        [0, 3, 0],
+        [0, 3, 5],
+        [5, 3, 0],
+        [-5, 3, 5],
+        [5, 3, -5],
+        [0, 3, -5],
+        [-5, 3, 0],
     ];
 
     lightConfigs.forEach(pos => {
         const light = new THREE.DirectionalLight(0xffffff, 0.7);
         light.position.set(...pos);
         light.castShadow = true;
+        light.shadow.bias = -0.0005;
+        light.shadow.mapSize.width = 1024; // 그림자 품질 낮추면 퍼지게 보임
+        light.shadow.mapSize.height = 1024;
         scene.add(light);
     });
 
@@ -39,7 +43,7 @@ export async function main(windowTarget, slider, isPartial) {
     });
     renderer.setSize(window.clientWidth, window.clientHeight, false);
     window.appendChild(renderer.domElement);
-    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.enabled = false;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     
     // Camera 설정
@@ -85,10 +89,24 @@ export async function main(windowTarget, slider, isPartial) {
         // 가장 최신 객체가 들어있는 객체 array: latestElem!
         const latestTime = timekeys[timekeys.length - 1];
         const latestElem = [];
-        for (const elemid of timeData[latestTime]["Elements"]) {
+        for (const elemid of timeJson[latestTime]["Elements"]) {
             const groups = meshDict[elemid];
             groups.visible = true;
-            latestElem.push(groups.clone());
+
+            const copied = groups.clone(true);
+
+            // ✅ clone 후 material 복사
+            copied.traverse(child => {
+                if (child.isMesh || child.isLine) {
+                    if (child.material && child.material.isMaterial) {
+                        child.material = child.material.clone();
+                    }
+                }
+            });
+        
+            copied.visible = true;
+            scene.add(copied);
+            latestElem.push(copied);
         }
 
         const box = MakeBox(scene);
@@ -158,7 +176,7 @@ export async function main(windowTarget, slider, isPartial) {
         }
 
         renderer.localClippingEnabled = true;
-        // makeClippingForLatestElem(realLatestElem, planes, inversePlanes, false); 
+        MakeClipping(latestElem, allGroup, planes, inversePlanes, true); 
     }
     
     sliderControls(slider, timekeys, timeJson, allGroup, meshDict);
