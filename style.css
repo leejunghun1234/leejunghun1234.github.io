@@ -162,6 +162,43 @@ canvas {
     background: #45a049;
 }
 
+
+.accordion-section {
+    margin: 0px 0;
+    padding: 15px 0px;
+}
+
+.accordion-toggle {
+    background-color: #263238;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.accordion-toggle:hover {
+    background-color: #263238;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.4s ease;
+    padding: 0 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+.accordion-content.open {
+    padding: 15px;
+    max-height: 500px; /* 충분히 큰 값으로 설정 */
+}
+
+
 /* component in fully section end */
 
 /* component in partially section :start */

@@ -322,6 +322,13 @@
             <div id="fully-slider-target">
                 <input type="range" id="fully-slider" class="slider">
             </div>
+
+            <section class="accordion-section">
+                <button class="accordion-toggle">▼ Click to Toggle Section</button>
+                <div class="accordion-content">
+                    <h1>This is the collapsible content. You can put text, images, or any HTML here.</h1>
+                </div>
+            </section>
         </section>
 
         <section id="Partially-Visualization">
@@ -355,8 +362,8 @@
         import { main } from './src/script/main.js';
         console.log("엥");
         document.addEventListener("DOMContentLoaded", () => {
-            main("fully-target");
-            main("partially-target");
+            main("fully-target", "fully-slider", false); // 마지막의 false는 partially인지 아닌지 선택하는거였긔
+            main("partially-target", "partially-slider", true);
         });
     </script>
     
@@ -379,6 +386,25 @@
         updateSliderBackground(sliderFully);
         updateSliderBackground(sliderPartially);
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggles = document.querySelectorAll(".accordion-toggle");
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener("click", () => {
+                    const content = toggle.nextElementSibling;
+                    content.classList.toggle("open");
+
+                    if (content.classList.contains("open")) {
+                        toggle.textContent = "▲ Collapse Section";
+                    } else {
+                        toggle.textContent = "▼ Click to Toggle Section";
+                    }
+                });
+            });
+        });
+</script>
 
 </body>
 </html>

@@ -15,7 +15,8 @@ export function loadMeshes(jsonData, scene, scaleFactor = 0.5) {
         
         const meshGroup = new THREE.Group();
         for (const log of logs) {
-            let vertices = log.Vertices;
+            let verticesOri = log.Vertices;
+            let vertices = TransformVertex(verticesOri);
             const oriIndices = new Uint16Array(log.Indices);
 
             let indices = [];
@@ -45,16 +46,32 @@ export function loadMeshes(jsonData, scene, scaleFactor = 0.5) {
             mesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+
+            meshGroup.add(mesh);
         }
         scene.add(meshGroup);
         meshGroup.userData = meshes.Info;
-        meshGroup.visible = true;
+        meshGroup.visible = false;
         meshGroup.name = elementId;
+
+        meshDict[elementId] = meshGroup;
 
         allGroup.push(meshGroup);
     }
 
-    return { allGroup }
+    return { allGroup, meshDict }
+
+    function TransformVertex(verticesOri) {
+        let vertices = [];
+        for (let i = 0; i < verticesOri.length; i += 1) {
+            const x = verticesOri[i][0];
+            const y = verticesOri[i][2] - 10;
+            const z = -verticesOri[i][1];
+            vertices.push([x, y, z]);
+        }
+
+        return vertices;
+    }
 
     function createMaterial(colors, transparency) {
         const color = (colors[0] << 16) | (colors[1] << 8) | colors[2];
