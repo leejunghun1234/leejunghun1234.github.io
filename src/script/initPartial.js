@@ -1,7 +1,6 @@
 import * as THREE from 'three';
-import { MakeBox } from './boxHelper.js';
-import { GetPlanes } from './clippingPlanes.js';
-import { MakeClipping } from './clippingHandler.js';
+import { GetPlanes } from './GetPlane.js';
+import { MakeClipping } from './MakeClipping.js';
 
 export function initPartialClipping(
     scene, 
@@ -99,4 +98,80 @@ export function initPartialClipping(
 
     renderer.localClippingEnabled = true;
     MakeClipping(latestElem, allGroup, planes, inversePlanes, true);
+
+    const insideButton = document.getElementById("inside-button");
+    const outsideButton = document.getElementById("outside-button");
+    const slider = document.getElementById("partially-slider");
+    
+    let insideVisible = false;
+    let outsideVisible = true;
+    
+    insideButton.addEventListener("click", () => {
+        insideButton.classList.toggle("Visible");
+        if (insideButton.classList.contains("Visible")) {
+            insideButton.style.backgroundColor = "#4CAF50";
+            const currentIndex = parseInt(slider.value, 10);
+            const currentTime = timekeys[currentIndex];
+            updateMeshes(currentTime);
+        } else {
+            insideButton.style.backgroundColor = "#263238";
+            for (const group of allGroup) {
+                group.visible = false;
+            }
+        }
+        insideVisible = !insideVisible;  // 상태 반전
+    });
+
+    outsideButton.addEventListener("click", () => {
+        outsideVisible = !outsideVisible;
+        for (const group of latestElem) {
+            group.visible = outsideVisible;
+        }
+
+        if (outsideVisible) {
+            outsideButton.style.backgroundColor = "#4CAF50";
+        } else {
+            outsideButton.style.backgroundColor = "#263238";
+        }
+        
+    });
+
+    function updateMeshes(currentTime) {
+        for (const mm of allGroup) {
+            mm.visible = false;
+        }
+        console.log(timeJson);
+        console.log(currentTime);
+        for (const timelog of timeJson[currentTime]["Elements"]) {
+            const groups = meshDict[timelog];
+            if (groups === undefined) continue;
+            groups.visible = true;
+        }
+    }
+}
+
+
+
+function MakeBox(scene) {
+    const boxGeometry = new THREE.BoxGeometry(10, 10, 10);
+    const boxMaterial = new THREE.MeshStandardMaterial({
+        color: 0x00ff00,
+        transparent: true,
+        opacity: 0.4,
+    });
+    const box = new THREE.Mesh(boxGeometry, boxMaterial);
+    box.castShadow = true;
+    box.receiveShadow = false;
+    
+    const edges = new THREE.EdgesGeometry(boxGeometry);
+    const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xffffff }); // 흰색 테두리
+    const edgeLines = new THREE.LineSegments(edges, edgeMaterial);
+
+    // ✅ 박스와 윤곽선을 함께 추가
+    const boxGroup = new THREE.Group();
+    boxGroup.add(box);
+    boxGroup.add(edgeLines);
+
+    // scene.add(boxGroup);
+    return boxGroup;
 }
