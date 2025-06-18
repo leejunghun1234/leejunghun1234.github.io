@@ -185,19 +185,63 @@ canvas {
 }
 
 .accordion-content {
-    max-height: 0px;
-    overflow: hidden;
+    max-height: 100px;
+    overflow-y: auto;
+    /* transition: max-height 0.4s ease; */
     transition: 0.4s ease;
     padding: 0 15px; /* 상하 padding 제거 */
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-top: none;
     border-radius: 20px;
+    scroll-behavior: smooth;
+}
+
+.accordion-content::-webkit-scrollbar {
+    width: 15px;
+}
+.accordion-content::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 20px;
 }
 
 .accordion-content.open {
     padding: 10px 15px;
     max-height: 500px; /* 충분히 큰 값으로 설정 */
+}
+
+.category-title {
+    font-weight: bold;
+    font-size: 35px;
+    margin-top: 50px;
+}
+
+.category-button {
+    margin: auto;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    width: 100px;
+    background-color: #45a049;
+    box-shadow: none;
+    outline: none;
+    border: none;
+}
+
+.category-button:hover {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+}
+
+.main-qunt {
+    font-weight: bold;
+    color: #263238;
+    text-align: left;
 }
 
 
@@ -248,6 +292,9 @@ canvas {
     transform: scale(0.98);         /* 클릭 시 눌리는 느낌 */
 }
 
+.hide {
+    display: none;
+}
 /* component in partially section end */
 
 section ul {

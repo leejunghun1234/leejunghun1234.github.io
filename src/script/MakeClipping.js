@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 
 export function MakeClipping(latestElem, allGroup,planes, inversePlanes, inside) {
-    console.log(allGroup);
-    console.log(latestElem);
     if (!inside) {
         for (let i = 0; i < latestElem.length; i++) {
             const group = latestElem[i];
@@ -28,8 +26,6 @@ export function MakeClipping(latestElem, allGroup,planes, inversePlanes, inside)
             }
         }
     } else {
-        console.log(planes);
-        console.log(inversePlanes);
         for (let i = 0; i < latestElem.length; i++) {
             const group = latestElem[i];
             group.visible = true;
