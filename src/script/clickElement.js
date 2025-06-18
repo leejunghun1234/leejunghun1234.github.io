@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 
-export function clickEvent(renderer, allGroup) {
+export function clickEvent(renderer, camera, allGroup, scene) {
     const raycaster = new THREE.Raycaster();
     let selectedObject = undefined;
+
+    window.addEventListener("mousedown", onMouseDown);
 
     function onMouseDown(event) {
         if (event.button === 0) {
@@ -10,10 +12,19 @@ export function clickEvent(renderer, allGroup) {
             const mouse = new THREE.Vector2(
                 ((event.clientX - rect.left) / rect.width) * 2 - 1,
                 -((event.clientY - rect.top) / rect.height) * 2 + 1
-            )
-
+            );
+            const meshObjects = [];
+            for (const group of allGroup) {
+                if (!group) continue;
+                group.traverse(child => {
+                    if (child.isMesh) {
+                        meshObjects.push(child);
+                    }
+                });
+            }
+            
             raycaster.setFromCamera(mouse, camera);
-            let intersections = raycaster.intersectObject(allGroup, true);
+            let intersections = raycaster.intersectObjects(meshObjects, true);
             if (intersections.length > 0) {
                 let intersectedObject = undefined;
                 for (let is of intersections) {
@@ -42,23 +53,51 @@ export function clickEvent(renderer, allGroup) {
                     selectedObject = intersectedObject;
                     selectedObject.userData.comment = "selected";
 
-                    const meshInfo = meshInfoDict[intersectedObject.name];
+                    // 이거 바꿔야 해~
+
+                    const meshInfo = intersectedObject.userData;
                     if (meshInfo) {
-                        updatePopupContent(meshInfo);
+                        UpdateElementInfo(meshInfo);
                     }
                 } else {
                     selectedObject = null;
+                    const elementTarget = document.getElementById("element-target");
+                    elementTarget.innerHTML = `<h2 id="select-element">Select the Element in Scene!</h2>`
                 }
-            } else {
-                if (selectedObject) {
-                    selectedObject.traverse((child => {
-                        if (child.isMesh && child.material) {
-                            child.material.emissive.setHex(0x000000);
-                        }
-                    }));
-                    selectedObject = null;
-                }
-            } 
+            }
         }
+    }
+
+    function UpdateElementInfo(meshInfo) {
+        const elementTarget = document.getElementById("element-target");
+        elementTarget.innerHTML = generateHTMLFromJSON(meshInfo);
+    }
+
+    function generateHTMLFromJSON(json, parentKey = "", depth = 0) {
+        let html = `<div class="json-section">`;
+
+        if (parentKey && depth === 0) {
+            html += `<div class="json-header">${parentKey.toUpperCase()}</div>`;
+        } else if (parentKey) {
+            html += `<div class="json-key-${depth}">${parentKey}</div>`;
+        }
+
+        html += `<div class="json-content">`;
+
+        if (typeof json === "object" && json !== null && !Array.isArray(json)) {
+            for (const [key, value] of Object.entries(json)) {
+                html += generateHTMLFromJSON(value, key, depth + 1);
+            }
+        } else if (Array.isArray(json)) {
+            json.forEach((item, index) => {
+                html += `<div class="json-array-index">ITEM ${index + 1}:</div>`;
+                html += generateHTMLFromJSON(item, parentKey, depth + 1);
+            });
+        } else {
+            html += `<div class="json-value">${json}</div>`;
+        }
+
+        html += `</div></div>`;
+        return html;
     }
 }

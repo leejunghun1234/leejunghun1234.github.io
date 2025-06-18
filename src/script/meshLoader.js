@@ -39,6 +39,7 @@ export function loadMeshes(jsonData, scene, scaleFactor = 0.5) {
             geometry.setAttribute("position", new THREE.BufferAttribute(newVertices, 3));
             geometry.setIndex(new THREE.BufferAttribute(newIndices, 1));
             geometry.computeVertexNormals();
+            geometry.computeBoundingSphere();
             geometry.needsUpdate = true;
 
             const material = createMaterial(log.Color, log.Transparency);
@@ -47,6 +48,7 @@ export function loadMeshes(jsonData, scene, scaleFactor = 0.5) {
             mesh.castShadow = true;
             mesh.receiveShadow = true;
 
+            mesh.visible = true;
             meshGroup.add(mesh);
         }
         scene.add(meshGroup);
@@ -55,7 +57,6 @@ export function loadMeshes(jsonData, scene, scaleFactor = 0.5) {
         meshGroup.name = elementId;
 
         meshDict[elementId] = meshGroup;
-
         allGroup.push(meshGroup);
     }
 

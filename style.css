@@ -185,8 +185,9 @@ canvas {
 }
 
 .accordion-content {
+    display: flex;
     max-height: 100px;
-    overflow-y: auto;
+    
     /* transition: max-height 0.4s ease; */
     transition: 0.4s ease;
     padding: 0 15px; /* 상하 padding 제거 */
@@ -244,6 +245,70 @@ canvas {
     text-align: left;
 }
 
+.info-div {
+    width: 50%;
+    overflow-y: auto;
+}
+
+#select-element {
+    margin-top: 30%;
+}
+
+
+
+
+
+
+
+.json-section {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    word-break: break-word;
+}
+
+.json-header {
+    font-weight: bold;
+    color: #0066cc;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.json-key-1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #222;
+    margin-top: 6px;
+}
+
+.json-key-2 {
+    font-size: 25px;
+}
+
+.json-key-3 {
+    font-size: 23px;
+}
+
+.json-key-4 {
+    font-size: 23px;
+}
+
+.json-key-5 {
+    font-size: 23px;
+}
+
+/* .json-array-index {
+    font-weight: bold;
+    margin-top: 5px;
+    color: #003366;
+} */
+
+.json-value {
+    margin-left: auto;
+    font-size: 25px;
+    color: #333;
+}
 
 /* component in fully section end */
 

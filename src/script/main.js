@@ -3,6 +3,7 @@ import { loadMeshes } from "./meshLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"; 
 import { sliderControls } from "./slider.js";
 import { initPartialClipping } from "./initPartial.js";
+import { clickEvent } from "./clickElement.js";
 
 export async function main(windowTarget, slider, isPartial) {
     // Scene 설정정
@@ -80,6 +81,10 @@ export async function main(windowTarget, slider, isPartial) {
 
     if (isPartial) {
         initPartialClipping(scene, meshDict, timeJson, timekeys, allGroup, renderer, camera, controls);
+    } else {
+        const elementTarget = document.getElementById("element-target");
+        elementTarget.innerHTML = `<h2 id="select-element">Select the Element in Scene!</h2>`
+        clickEvent(renderer, camera, allGroup, scene);
     }
     
     sliderControls(slider, timekeys, timeJson, allGroup, meshDict, isPartial);
