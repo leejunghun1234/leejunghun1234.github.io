@@ -99,7 +99,7 @@ export function clickEvent(renderer, camera, allGroup, scene) {
                 parentKey === "Parameter" ||
                 parentKey === "comment"
             ) {
-                html = `<div class = "json-section" id="json-section-${depth}-${parentKey}">`;
+                html = `<div class = "json-section-${depth}" id="json-section-${depth}-${parentKey}">`;
             } else {
                 html = `<div class="json-section-${depth}">`;
             }
