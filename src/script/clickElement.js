@@ -3,6 +3,7 @@ import * as THREE from 'three';
 export function clickEvent(renderer, camera, allGroup, scene) {
     const raycaster = new THREE.Raycaster();
     let selectedObject = undefined;
+    const parentKeies = ["Common", "Geometry", "Layers", "Property", "Parameter", "comment"];
 
     window.addEventListener("mousedown", onMouseDown);
 
@@ -58,6 +59,10 @@ export function clickEvent(renderer, camera, allGroup, scene) {
                     const meshInfo = intersectedObject.userData;
                     if (meshInfo) {
                         UpdateElementInfo(meshInfo);
+                        for (const parentKey of parentKeies) {
+                            const section = document.getElementById(`json-content-${parentKey}`)
+                            console.log(section);
+                        }
                     }
                 } else {
                     selectedObject = null;
@@ -67,22 +72,53 @@ export function clickEvent(renderer, camera, allGroup, scene) {
             }
         }
     }
-
+    
     function UpdateElementInfo(meshInfo) {
         const elementTarget = document.getElementById("element-target");
         elementTarget.innerHTML = generateHTMLFromJSON(meshInfo);
+
+        for (const parentKey of parentKeies) {
+            const button = document.getElementById(`category-button-${parentKey}`);
+            const section = document.getElementById(`json-content-${parentKey}`);
+            
+            button.addEventListener("click", () => {
+                section.classList.toggle("hide");
+                button.textContent = section.classList.contains("hide") ? "▾" : "▴";
+            })
+        }
     }
 
     function generateHTMLFromJSON(json, parentKey = "", depth = 0) {
-        let html = `<div class="json-section">`;
+        let html = ``;
+        console.log(depth);
+        if (depth != 0) {
+            if (parentKey === "Common" ||
+                parentKey === "Geometry" ||
+                parentKey === "Property" ||
+                parentKey === "Layers" ||
+                parentKey === "Parameter" ||
+                parentKey === "comment"
+            ) {
+                html = `<div class = "json-section" id="json-section-${depth}-${parentKey}">`;
+            } else {
+                html = `<div class="json-section-${depth}">`;
+            }
+        }
 
         if (parentKey && depth === 0) {
             html += `<div class="json-header">${parentKey.toUpperCase()}</div>`;
         } else if (parentKey) {
             html += `<div class="json-key-${depth}">${parentKey}</div>`;
+            if (depth === 1) {
+                html += `<button class = "category-button" id="category-button-${parentKey}">▾</button>`;
+            }
         }
+        if (depth === 1) {
+            html += `<div class="json-content-${depth} hide" id="json-content-${parentKey}">`;
 
-        html += `<div class="json-content">`;
+        } else {
+            html += `<div class="json-content-${depth}">`;
+        }
 
         if (typeof json === "object" && json !== null && !Array.isArray(json)) {
             for (const [key, value] of Object.entries(json)) {
@@ -96,7 +132,7 @@ export function clickEvent(renderer, camera, allGroup, scene) {
         } else {
             html += `<div class="json-value">${json}</div>`;
         }
-
+        
         html += `</div></div>`;
         return html;
     }

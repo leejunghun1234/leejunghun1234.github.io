@@ -113,6 +113,7 @@ export function sliderControls(sliderName, timeKeys, timeJson, allGroup, meshDic
                 list.classList.add("hide");
             } else {
                 document.getElementById(`${catReplace}-category-button`).textContent = "▴";
+                list.style.maxHeight = list.scrollHeight + "px";
                 list.classList.remove("hide");
             }
         }
