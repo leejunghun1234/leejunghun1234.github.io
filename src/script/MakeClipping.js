@@ -35,6 +35,8 @@ export function MakeClipping(latestElem, allGroup,planes, inversePlanes, inside)
                     object.material.clippingPlanes = planes;
                     object.material.clipIntersection = true;
                     object.material.needsUpdate = true;
+                    console.log(1);
+                    console.log(object.material.clippingPlanes);
                 }
             }
         }
@@ -46,6 +48,8 @@ export function MakeClipping(latestElem, allGroup,planes, inversePlanes, inside)
                     object.material.clippingPlanes = inversePlanes;
                     object.material.clipIntersection = false;
                     object.material.needsUpdate = true;
+                    console.log(2);
+                    console.log(object.material.clippingPlanes);
                 }
             }
         }
