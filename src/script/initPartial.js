@@ -97,6 +97,10 @@ export function initPartialClipping(
 
     renderer.localClippingEnabled = true;
     MakeClipping(latestElem, allGroup, planes, inversePlanes, true);
+    console.log(planes);
+    console.log(inversePlanes);
+    console.log(latestElem);
+    console.log(allGroup);
 
     const insideButton = document.getElementById("inside-button");
     const outsideButton = document.getElementById("outside-button");
